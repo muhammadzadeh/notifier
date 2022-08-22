@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+    dev:
+        container_name: notifier_dev
+        build:
+            context: .
+            target: development
+            dockerfile: ./Dockerfile-dev
+        networks:
+            - mynet
+        volumes:
+            - .:/usr/src/app
+            - /usr/src/app/node_modules
+        restart: unless-stopped
+    prod:
+        container_name: notifier
+        build:
+            context: .
+            target: production
+            dockerfile: ./Dockerfile
+        networks:
+            - mynet
+        restart: unless-stopped
+
+networks:
+  mynet:
+    external:
+      name: mynet
+

@@ -1,0 +1,10 @@
+FROM node:16.14.0 as development
+
+WORKDIR /usr/src/app
+COPY package.json ./
+COPY yarn.lock ./
+RUN yarn cache clean && yarn install --frozen-lockfile
+COPY . .
+RUN mv .env.example .env
+RUN yarn build
+CMD [  "yarn", "run", "start:dev" ]
